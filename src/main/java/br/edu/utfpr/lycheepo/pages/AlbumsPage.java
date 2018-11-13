@@ -6,9 +6,10 @@
 package br.edu.utfpr.lycheepo.pages;
 
 import br.edu.utfpr.lycheepo.basepage.LycheeBasePage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 /**
@@ -23,11 +24,25 @@ public class AlbumsPage extends LycheeBasePage{
     @FindBy(id = "button_signin")
     WebElement loginButton;
     
-    @FindBy(id = "basicModal__action")
-    WebElement buttonSignIn;
+    @FindBy(xpath = "/html/body/header/div[2]/a[5]")
+    WebElement buttonAdd;
     
-    @FindBy(id = "basicModal__cancel")
-    WebElement buttonCancel;
+    /* Albums */
+    @FindBy(xpath = "/html/body/div[2]/div[7]")
+    WebElement firstAlbum;
+    
+    /* Menu */
+    @FindBy(className = "basicContextContainer")
+    WebElement divMenu;
+    
+    @FindBy(xpath="/html/body/div[6]/div/table/tbody/tr[1]/td")
+    WebElement uploadPhoto;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[3]/td")
+    WebElement importFromLink;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[7]/td")
+    WebElement newAlbum;
     
     
     /* Inputs */
@@ -36,6 +51,11 @@ public class AlbumsPage extends LycheeBasePage{
     
     @FindBy(name = "password")
     WebElement inputPassword;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/div[1]/p/input")
+    WebElement inputAlbumName;
+    
+    /*=================================*/
     
     /* Construtor */
     public AlbumsPage(WebDriver driver, boolean estaLogado) {
@@ -50,7 +70,7 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
-    public AlbumsPage preencherCom(String user, String senha){
+    public AlbumsPage preencherLoginCom(String user, String senha){
         inputUsername.sendKeys(user);
         inputPassword.sendKeys(senha);
         
@@ -58,7 +78,7 @@ public class AlbumsPage extends LycheeBasePage{
     }
     
     public AlbumsPage clicarEmSignIn(){
-        buttonSignIn.click();
+        performAction();
         
         if(inputPassword.getAttribute("class").contains("error"))
             return this;
@@ -66,9 +86,42 @@ public class AlbumsPage extends LycheeBasePage{
             return new AlbumsPage(driver, LycheeBasePage.LOGADO);
     }
     
+    public AlbumsPage clicarEmAdd(){
+        buttonAdd.click();
+        
+        waitForElementVisibility(3, divMenu);
+        
+        return this;
+    }
+    
+    public AlbumsPage clicarEmNewAlbum(){
+        waitForElementVisibility(3, newAlbum);
+        
+        newAlbum.click();
+        
+        return this;
+    }
+    
+    public AlbumsPage preencherNomeDoAlbumCom(String albumName){
+        inputAlbumName.clear();
+        inputAlbumName.sendKeys(albumName);
+        
+        return this;
+    }
+    
+    public AlbumPage clicarEmCreateAlbum(){
+        performAction();
+        
+        return new AlbumPage(driver);
+    }
+    
     /* Verificações */
     public boolean estaLogado(){
         return logado;
+    }
+    
+    public boolean albumFoiApagado(){
+        return firstAlbum.isDisplayed();
     }
     
 }

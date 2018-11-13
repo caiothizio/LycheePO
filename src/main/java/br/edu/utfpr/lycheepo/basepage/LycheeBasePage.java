@@ -5,9 +5,13 @@
  */
 package br.edu.utfpr.lycheepo.basepage;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -22,6 +26,12 @@ public class LycheeBasePage extends BasePage{
     @FindBy(className = "header__title")
     WebElement headerTitle;
     
+    @FindBy(id = "basicModal__action")
+    WebElement buttonAction;
+    
+    @FindBy(id = "basicModal__cancel")
+    WebElement buttonCancel;
+    
     public LycheeBasePage(WebDriver driver) {
         super(driver);
     }
@@ -30,4 +40,25 @@ public class LycheeBasePage extends BasePage{
         return headerTitle.getText();
     }
     
+    public void performAction(){
+        wait(1);
+        buttonAction.click();
+    }
+    
+    public void cancelAction(){
+        buttonCancel.click();
+    }
+    
+    public void waitForElementVisibility(int time, WebElement element){
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        wait.until( ExpectedConditions.visibilityOf(element) );
+    }
+    
+    public void wait(int timeInSeconds){
+        try {
+            Thread.sleep(timeInSeconds * 1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(LycheeBasePage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

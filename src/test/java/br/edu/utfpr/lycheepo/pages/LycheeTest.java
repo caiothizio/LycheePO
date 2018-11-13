@@ -23,6 +23,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
  * @author caiot
  */
 public class LycheeTest {
+    /* Consts */
+    private final String user = "teste";
+    private final String password = "utfpr";
     
     private WebDriver driver;
     AlbumsPage home;
@@ -52,10 +55,34 @@ public class LycheeTest {
     }
     
     /* CT01: Realizar Login */
-    @Test @Ignore
+    @Test 
+    @Ignore
     public void CT01(){
-        AlbumsPage albumsPage = home.clicarNoBotaoDeLogin().preencherCom("teste", "utfpr").clicarEmSignIn();
+        AlbumsPage albumsPage = home.
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn();
         
         assertTrue(albumsPage.estaLogado());
     }
+    
+    /* CT02: Criar álbum e depois excluí-lo */
+    @Test(expected = org.openqa.selenium.NoSuchElementException.class)
+    @Ignore
+    public void CT02(){
+        AlbumsPage albumsPage = home.
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn().
+                                clicarEmAdd().
+                                clicarEmNewAlbum().
+                                preencherNomeDoAlbumCom("teste").
+                                clicarEmCreateAlbum().
+                                clicarEmDeletar().
+                                confirmarExclusao();
+        
+        albumsPage.albumFoiApagado(); //a função não consegue encontrar o elemento (pois foi excluído) e lança uma NoSuchElementException.
+    }
+ 
+    
 }
