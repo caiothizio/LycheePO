@@ -103,7 +103,7 @@ public class LycheeTest {
                               clicarEmImportFromLink().
                               preencherLinkDaImagemCom("");
         
-        //Parado. Não está funcionando a importação por algum motivo (a aplicação, não o teste)
+        //Parado. Não está funcionando a importação por algum motivo (acredita-se que é a rede da UTFPR).
     }
     
     /* CT04: Adicionar foto sem especificar álbum */
@@ -123,8 +123,7 @@ public class LycheeTest {
     @Test
     @Ignore
     public void CT05(){
-        //Importante: para este caso de teste funcionar, é preciso ter ao menos uma imagem carregada no álbum "Unsorted" e esta não pode estar marcada com estrela.
-        
+        /* Importante: para este caso de teste funcionar, é preciso ter ao menos uma imagem carregada no álbum "Unsorted" e esta não pode estar marcada com estrela. */
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
                               preencherLoginCom(user, password).
@@ -148,6 +147,29 @@ public class LycheeTest {
                     clicarNaEstrela();
         
         assertTrue(photoPage.desfavoritou());
+    }
+    
+    /* CT06: Renomear Álbum */
+    @Test
+    @Ignore
+    public void CT06(){
+        AlbumPage albumPage = home.
+                              clicarNoBotaoDeLogin().
+                              preencherLoginCom(user, password).
+                              clicarEmSignIn().
+                              clicarEmAdd().
+                              clicarEmNewAlbum().
+                              preencherNomeDoAlbumCom("Dogs").
+                              clicarEmCreateAlbum().
+                              clicarNoNomeDoAlbum().
+                              clicarEmRename().
+                              preencherNovoNomeDoAlbumCom("Teste").
+                              clicarEmSetTitle();
         
+        assertEquals(albumPage.verTitulo(), "Teste");
+        
+        //Apagar álbum para conseguir reexecutar este teste.
+        
+        albumPage.clicarEmDeletar().confirmarExclusao();
     }
 }

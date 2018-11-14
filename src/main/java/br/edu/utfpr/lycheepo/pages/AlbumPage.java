@@ -22,17 +22,26 @@ public class AlbumPage extends LycheeBasePage {
 
     @FindBy(className = "button_add")
     WebElement buttonAdd;
-
+    
     /* Menu */
     @FindBy(className = "basicContextContainer")
     WebElement divMenu;
 
     @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[3]/td")
     WebElement importFromLink;
+    
+    @FindBy(xpath = "/html/body/header/div[3]/a[2]")
+    WebElement menuRename;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr/td")
+    WebElement buttonRename;
 
     /* Inputs */
     @FindBy(name = "link")
     WebElement inputLinkPhoto;
+    
+    @FindBy(name = "title")
+    WebElement inputAlbumTitle;
     
     /* Photos */
     @FindBy(xpath = "/html/body/div[2]/div")
@@ -61,11 +70,25 @@ public class AlbumPage extends LycheeBasePage {
 
         return this;
     }
+    
+    public AlbumPage clicarNoNomeDoAlbum(){
+        menuRename.click();
+        
+        waitForElementVisibility(3, divMenu);
+        
+        return this;
+    }
 
     public AlbumsPage confirmarExclusao() {
         performAction();
         wait(1);
         return new AlbumsPage(driver, LOGADO);
+    }
+    
+    public AlbumPage clicarEmSetTitle() {
+        performAction();
+        wait(1);
+        return this;
     }
 
     public AlbumPage clicarEmImportFromLink() {
@@ -76,8 +99,22 @@ public class AlbumPage extends LycheeBasePage {
         return this;
     }
     
+    public AlbumPage clicarEmRename(){
+        buttonRename.click();
+        
+        return this;
+    }
+    
+    
     public AlbumPage preencherLinkDaImagemCom(String url){
         inputLinkPhoto.sendKeys(url);
+        
+        return this;
+    }
+    
+    public AlbumPage preencherNovoNomeDoAlbumCom(String newName){
+        inputAlbumTitle.clear();
+        inputAlbumTitle.sendKeys(newName);
         
         return this;
     }
