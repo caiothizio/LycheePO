@@ -28,6 +28,9 @@ public class AlbumsPage extends LycheeBasePage{
     WebElement buttonAdd;
     
     /* Albums */
+    @FindBy(xpath = "/html/body/div[2]/div[2]")
+    WebElement unsortedAlbum;
+    
     @FindBy(xpath = "/html/body/div[2]/div[7]")
     WebElement firstAlbum;
     
@@ -131,6 +134,12 @@ public class AlbumsPage extends LycheeBasePage{
     
     public AlbumPage clicarEmCreateAlbum(){
         performAction();
+        return new AlbumPage(driver);
+    }
+    
+    public AlbumPage clicarNoAlbumUnsorted(){
+        unsortedAlbum.click();
+        wait(1);
         return new AlbumPage(driver);
     }
     

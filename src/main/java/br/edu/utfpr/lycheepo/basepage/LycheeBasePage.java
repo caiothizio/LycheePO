@@ -23,7 +23,7 @@ public class LycheeBasePage extends BasePage{
     public static final boolean LOGADO = true;
     public static final boolean DESLOGADO = false;
     
-    @FindBy(className = "header__title")
+    @FindBy(xpath = "/html/body/header/div[3]/a[2]")
     WebElement headerTitle;
     
     @FindBy(id = "basicModal__action")

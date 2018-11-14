@@ -108,7 +108,7 @@ public class LycheeTest {
     
     /* CT04: Adicionar foto sem especificar álbum */
     @Test
-    //@Ignore
+    @Ignore
     public void CT04(){
         AlbumsPage albumsPage = home.
                                 clicarNoBotaoDeLogin().
@@ -116,6 +116,38 @@ public class LycheeTest {
                                 clicarEmSignIn().
                                 preencherCaminhoDeImagemCom(testImg);
         
-                                
+        //Parado. Nao está funcionando a interação com o input do tipo file, pois este está hidden na página.                              
+    }
+    
+    /* CT05: Estrelar foto */
+    @Test
+    @Ignore
+    public void CT05(){
+        //Importante: para este caso de teste funcionar, é preciso ter ao menos uma imagem carregada no álbum "Unsorted" e esta não pode estar marcada com estrela.
+        
+        AlbumPage albumPage = home.
+                              clicarNoBotaoDeLogin().
+                              preencherLoginCom(user, password).
+                              clicarEmSignIn().
+                              clicarNoAlbumUnsorted();
+        
+        assertEquals(albumPage.getCurrentTitle(), "Lychee - Unsorted");
+        
+        PhotoPage photoPage = albumPage.
+                              clicarNaPrimeiraFoto().clicarNaEstrela();
+        
+        assertTrue(photoPage.favoritou());
+        
+        albumPage = photoPage.
+                    clicarEmVoltar();
+        
+        assertTrue(albumPage.fotoPossuiBadge());
+        
+        photoPage = albumPage.
+                    clicarNaPrimeiraFoto().
+                    clicarNaEstrela();
+        
+        assertTrue(photoPage.desfavoritou());
+        
     }
 }

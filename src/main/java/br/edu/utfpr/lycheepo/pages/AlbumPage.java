@@ -33,7 +33,15 @@ public class AlbumPage extends LycheeBasePage {
     /* Inputs */
     @FindBy(name = "link")
     WebElement inputLinkPhoto;
+    
+    /* Photos */
+    @FindBy(xpath = "/html/body/div[2]/div")
+    WebElement firstPhoto;
 
+    /* Badges */
+    @FindBy(xpath = "/html/body/div[2]/div/div[2]/a[1]")
+    WebElement badgeStar;
+    
     /* Construtor */
     public AlbumPage(WebDriver driver) {
         super(driver);
@@ -74,5 +82,13 @@ public class AlbumPage extends LycheeBasePage {
         return this;
     }
     
+    public PhotoPage clicarNaPrimeiraFoto(){
+        firstPhoto.click();
+        
+        return new PhotoPage(driver);
+    }
     
+    public boolean fotoPossuiBadge(){
+        return badgeStar.isDisplayed();
+    }
 }
