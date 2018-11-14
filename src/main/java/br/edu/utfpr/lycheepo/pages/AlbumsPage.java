@@ -55,6 +55,9 @@ public class AlbumsPage extends LycheeBasePage{
     @FindBy(xpath = "/html/body/div[6]/div/div[1]/p/input")
     WebElement inputAlbumName;
     
+    @FindBy(id = "upload_files")
+    WebElement inputImg;
+    
     /*=================================*/
     
     /* Construtor */
@@ -102,6 +105,14 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage clicarEmUploadPhoto(){
+        waitForElementVisibility(3, uploadPhoto);
+        
+        uploadPhoto.click();
+        
+        return this;
+    }
+    
     public AlbumsPage preencherNomeDoAlbumCom(String albumName){
         inputAlbumName.clear();
         inputAlbumName.sendKeys(albumName);
@@ -109,9 +120,17 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage preencherCaminhoDeImagemCom(String path){
+        inputImg.clear();
+        inputImg.sendKeys(path);
+        
+        wait(3);
+        
+        return this;
+    }
+    
     public AlbumPage clicarEmCreateAlbum(){
         performAction();
-        
         return new AlbumPage(driver);
     }
     

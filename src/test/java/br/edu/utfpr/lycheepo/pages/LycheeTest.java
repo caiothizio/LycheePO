@@ -9,6 +9,7 @@ import br.edu.utfpr.lycheepo.basepage.LycheeBasePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,6 +27,8 @@ public class LycheeTest {
     /* Consts */
     private final String user = "teste";
     private final String password = "utfpr";
+    
+    private final String testImg = System.getProperty("user.dir")+"\\img\\shiba.jpg";
     
     private WebDriver driver;
     AlbumsPage home;
@@ -45,7 +48,7 @@ public class LycheeTest {
         driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.get("http://169.254.8.146/");
+        driver.get("http://169.254.90.23/");
         home = new AlbumsPage(driver, LycheeBasePage.DESLOGADO);
     }
     
@@ -84,5 +87,35 @@ public class LycheeTest {
         albumsPage.albumFoiApagado(); //a função não consegue encontrar o elemento (pois foi excluído) e lança uma NoSuchElementException.
     }
  
+    /* CT03: Adicionar foto a álbum via link */
+    @Test
+    @Ignore
+    public void CT03(){
+        AlbumPage albumPage = home.
+                              clicarNoBotaoDeLogin().
+                              preencherLoginCom(user, password).
+                              clicarEmSignIn().
+                              clicarEmAdd().
+                              clicarEmNewAlbum().
+                              preencherNomeDoAlbumCom("Dogs").
+                              clicarEmCreateAlbum().
+                              clicarEmAdd().
+                              clicarEmImportFromLink().
+                              preencherLinkDaImagemCom("");
+        
+        //Parado. Não está funcionando a importação por algum motivo (a aplicação, não o teste)
+    }
     
+    /* CT04: Adicionar foto sem especificar álbum */
+    @Test
+    //@Ignore
+    public void CT04(){
+        AlbumsPage albumsPage = home.
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn().
+                                preencherCaminhoDeImagemCom(testImg);
+        
+                                
+    }
 }
