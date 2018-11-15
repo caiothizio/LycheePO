@@ -23,6 +23,18 @@ public class AlbumPage extends LycheeBasePage {
     @FindBy(xpath = "/html/body/header/div[3]/a[8]")
     WebElement buttonAdd;
     
+    @FindBy(id = "button_share_album")
+    WebElement buttonMakePublic;
+    
+    @FindBy(id = "button_back_home")
+    WebElement buttonBackHome;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/div[1]/form/div[3]/label/span[1]")
+    WebElement checkBoxPwProtected;
+    
+    @FindBy(name = "passwordtext")
+    WebElement inputPwProtected;
+    
     /* Menu */
     @FindBy(className = "basicContextContainer")
     WebElement divMenu;
@@ -35,6 +47,9 @@ public class AlbumPage extends LycheeBasePage {
     
     @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr/td")
     WebElement buttonRename;
+    
+    @FindBy(xpath = "/html/body")
+    WebElement desselecionar;
 
     /* Inputs */
     @FindBy(name = "link")
@@ -71,6 +86,41 @@ public class AlbumPage extends LycheeBasePage {
 
         wait(1);
 
+        return this;
+    }
+    
+    public AlbumsPage clicarEmVoltar(){
+        desselecionar.click();
+        wait(1);
+        buttonBackHome.click();
+        
+        return new AlbumsPage(driver, LOGADO);
+    }
+    
+    public AlbumPage clicarEmMakePublic(){
+        buttonMakePublic.click();
+        wait(1);
+        
+        return this;
+    }
+    
+    public AlbumPage clicarEmPasswordProtected(){
+        checkBoxPwProtected.click();
+        
+        return this;
+    }
+    
+    public AlbumPage preencherSenhaDoAlbumCom(String pw){
+        inputPwProtected.clear();
+        inputPwProtected.sendKeys(pw);
+        
+        return this;
+    }
+    
+    public AlbumPage clicarEmShare(){
+        performAction();
+        wait(1);
+        
         return this;
     }
     
@@ -145,4 +195,5 @@ public class AlbumPage extends LycheeBasePage {
     public String tituloDaFotoImportada(){
         return firstPhotoTitle.getAttribute("title");
     }
+    
 }

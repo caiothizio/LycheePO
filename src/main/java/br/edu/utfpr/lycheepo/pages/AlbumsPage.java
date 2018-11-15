@@ -27,12 +27,18 @@ public class AlbumsPage extends LycheeBasePage{
     @FindBy(xpath = "/html/body/header/div[2]/a[5]")
     WebElement buttonAdd;
     
+    @FindBy(id = "button_settings")
+    WebElement buttonSettings;
+    
     /* Albums */
     @FindBy(xpath = "/html/body/div[2]/div[2]")
     WebElement unsortedAlbum;
     
     @FindBy(xpath = "/html/body/div[2]/div[7]")
     WebElement firstAlbum;
+    
+    @FindBy(xpath = "/html/body/div[2]/div")
+    WebElement firstPublicAlbum;
     
     /* Menu */
     @FindBy(className = "basicContextContainer")
@@ -46,6 +52,9 @@ public class AlbumsPage extends LycheeBasePage{
     
     @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[7]/td")
     WebElement newAlbum;
+    
+    @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[9]/td")
+    WebElement signOut;
     
     
     /* Inputs */
@@ -110,6 +119,19 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage clicarEmSettings(){
+        buttonSettings.click();
+        wait(1);
+        
+        return this;
+    }
+    
+    public AlbumsPage clicarEmSignOut(){
+        signOut.click();
+        
+        return new AlbumsPage(driver, DESLOGADO);
+    }
+    
     public AlbumsPage clicarEmNewAlbum(){
         waitForElementVisibility(3, newAlbum);
         
@@ -153,6 +175,20 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage preencherPasswordDoAlbumCom(String pw){
+        inputPassword.clear();
+        inputPassword.sendKeys(pw);
+        
+        return this;
+    }
+    
+    public AlbumPage clicarEmEnter(){
+        performAction();
+        wait(1);
+        
+        return new AlbumPage(driver);
+    }
+    
     public AlbumPage clicarEmCreateAlbum(){
         performAction();
         wait(1);
@@ -164,6 +200,19 @@ public class AlbumsPage extends LycheeBasePage{
         unsortedAlbum.click();
         wait(1);
         return new AlbumPage(driver);
+    }
+    
+    public AlbumPage clicarNoPrimeiroAlbum(){
+        firstAlbum.click();
+        wait(1);
+        
+        return new AlbumPage(driver);
+    }
+    
+    public AlbumsPage clicarNoAlbumPublico(){
+        firstPublicAlbum.click();
+        
+        return this;
     }
     
     /* Verificações */

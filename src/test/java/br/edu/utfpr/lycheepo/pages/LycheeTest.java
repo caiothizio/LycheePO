@@ -212,4 +212,40 @@ public class LycheeTest {
         assertTrue(albumsPage.naoAchouResultado());
     }
     
+    /* CT09: Tornar álbum público com senha */
+    @Test
+    @Ignore
+    public void CT09(){
+        AlbumPage albumPage = home.
+                              clicarNoBotaoDeLogin().
+                              preencherLoginCom(user, password).
+                              clicarEmSignIn().
+                              clicarEmAdd().
+                              clicarEmNewAlbum().
+                              preencherNomeDoAlbumCom("AlbumPublico").
+                              clicarEmCreateAlbum().
+                              clicarEmMakePublic().
+                              clicarEmPasswordProtected().
+                              preencherSenhaDoAlbumCom("teste").
+                              clicarEmShare().
+                              clicarEmVoltar().
+                              clicarEmSettings().
+                              clicarEmSignOut().
+                              clicarNoAlbumPublico().
+                              preencherPasswordDoAlbumCom("teste").
+                              clicarEmEnter();
+        
+        assertEquals("AlbumPublico", albumPage.verTitulo());
+        
+        //Excluir album para repetir teste
+        AlbumsPage albumsPage = albumPage.
+                                clicarEmVoltar().
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn().
+                                clicarNoPrimeiroAlbum().
+                                clicarEmDeletar().
+                                confirmarExclusao();
+    }
+    
 }
