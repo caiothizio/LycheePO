@@ -20,7 +20,7 @@ public class AlbumPage extends LycheeBasePage {
     @FindBy(id = "button_trash_album")
     WebElement buttonDelete;
 
-    @FindBy(className = "button_add")
+    @FindBy(xpath = "/html/body/header/div[3]/a[8]")
     WebElement buttonAdd;
     
     /* Menu */
@@ -46,6 +46,9 @@ public class AlbumPage extends LycheeBasePage {
     /* Photos */
     @FindBy(xpath = "/html/body/div[2]/div")
     WebElement firstPhoto;
+    
+    @FindBy(xpath = "/html/body/div[2]/div[1]/div[1]/h1")
+    WebElement firstPhotoTitle;
 
     /* Badges */
     @FindBy(xpath = "/html/body/div[2]/div/div[2]/a[1]")
@@ -66,7 +69,7 @@ public class AlbumPage extends LycheeBasePage {
     public AlbumPage clicarEmAdd() {
         buttonAdd.click();
 
-        waitForElementVisibility(3, divMenu);
+        wait(1);
 
         return this;
     }
@@ -90,9 +93,15 @@ public class AlbumPage extends LycheeBasePage {
         wait(1);
         return this;
     }
+    
+    public AlbumPage clicarEmImport(){
+        performAction();
+        wait(2);
+        
+        return this;
+    }
 
     public AlbumPage clicarEmImportFromLink() {
-        waitForElementVisibility(3, importFromLink);
 
         importFromLink.click();
 
@@ -127,5 +136,13 @@ public class AlbumPage extends LycheeBasePage {
     
     public boolean fotoPossuiBadge(){
         return badgeStar.isDisplayed();
+    }
+    
+    public boolean apagouFoto(){
+        return firstPhoto.isDisplayed();
+    }
+    
+    public String tituloDaFotoImportada(){
+        return firstPhotoTitle.getAttribute("title");
     }
 }

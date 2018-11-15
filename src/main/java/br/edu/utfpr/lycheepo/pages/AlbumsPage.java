@@ -61,6 +61,16 @@ public class AlbumsPage extends LycheeBasePage{
     @FindBy(id = "upload_files")
     WebElement inputImg;
     
+    @FindBy(name = "search")
+    WebElement inputSearch;
+    
+    /* Divs */
+    @FindBy(xpath = "/html/body/div[6]")
+    WebElement noResults;
+    
+    @FindBy(xpath = "/html/body/div[2]/div[2]")
+    WebElement photo;
+    
     /*=================================*/
     
     /* Construtor */
@@ -124,6 +134,7 @@ public class AlbumsPage extends LycheeBasePage{
     }
     
     public AlbumsPage preencherCaminhoDeImagemCom(String path){
+        System.out.println(inputImg);
         inputImg.clear();
         inputImg.sendKeys(path);
         
@@ -132,8 +143,20 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage preencherCampoDeBuscaCom(String busca){
+        wait(1);
+        inputSearch.click();
+        inputSearch.clear();
+        inputSearch.sendKeys(busca);
+        wait(1);
+        
+        return this;
+    }
+    
     public AlbumPage clicarEmCreateAlbum(){
         performAction();
+        wait(1);
+        
         return new AlbumPage(driver);
     }
     
@@ -150,6 +173,14 @@ public class AlbumsPage extends LycheeBasePage{
     
     public boolean albumFoiApagado(){
         return firstAlbum.isDisplayed();
+    }
+    
+    public boolean achouResultado(){
+        return photo.isDisplayed();
+    }
+    
+    public boolean naoAchouResultado(){
+        return noResults.isDisplayed();
     }
     
 }

@@ -22,6 +22,9 @@ public class PhotoPage extends LycheeBasePage{
     
     @FindBy(id = "button_back")
     WebElement buttonBack;
+    
+    @FindBy(id = "button_trash")
+    WebElement buttonDelete;
         
     public PhotoPage(WebDriver driver) {
         super(driver);
@@ -30,12 +33,26 @@ public class PhotoPage extends LycheeBasePage{
     public PhotoPage clicarNaEstrela(){
         buttonStar.click();
         wait(1);
+        
+        return this;
+    }
+    
+    public PhotoPage clicarEmApagar(){
+        buttonDelete.click();
+        wait(1);
+        
         return this;
     }
     
     public AlbumPage clicarEmVoltar(){
         buttonBack.click();
         wait(1);
+        
+        return new AlbumPage(driver);
+    }
+    
+    public AlbumPage clicarEmDeletePhoto(){
+        performAction();
         
         return new AlbumPage(driver);
     }

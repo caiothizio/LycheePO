@@ -43,6 +43,7 @@ public class LycheeBasePage extends BasePage{
     public void performAction(){
         wait(1);
         buttonAction.click();
+        
     }
     
     public void cancelAction(){

@@ -48,7 +48,7 @@ public class LycheeTest {
         driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.get("http://169.254.90.23/");
+        driver.get("http://192.168.0.103/");
         home = new AlbumsPage(driver, LycheeBasePage.DESLOGADO);
     }
     
@@ -89,7 +89,7 @@ public class LycheeTest {
  
     /* CT03: Adicionar foto a álbum via link */
     @Test
-    @Ignore
+    //@Ignore
     public void CT03(){
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
@@ -101,9 +101,14 @@ public class LycheeTest {
                               clicarEmCreateAlbum().
                               clicarEmAdd().
                               clicarEmImportFromLink().
-                              preencherLinkDaImagemCom("");
+                              preencherLinkDaImagemCom("https://t1.ea.ltmcdn.com/pt/images/7/0/3/como_adestrar_um_shiba_inu_21307_600.jpg").
+                              clicarEmImport();
         
-        //Parado. Não está funcionando a importação por algum motivo (acredita-se que é a rede da UTFPR).
+        assertEquals("como_adestrar_um_shiba_inu_21307_600", albumPage.tituloDaFotoImportada());
+        
+        albumPage.clicarEmDeletar().confirmarExclusao();
+        
+        //Funciona fora da UTFPR. Precisa de configuração do proxy.
     }
     
     /* CT04: Adicionar foto sem especificar álbum */
@@ -172,4 +177,39 @@ public class LycheeTest {
         
         albumPage.clicarEmDeletar().confirmarExclusao();
     }
+    
+    /* CT07: Excluir Foto */
+    @Test
+    @Ignore
+    public void CT07(){
+        /* Importante: para este caso de teste funcionar, é necessário possuir uma foto no álbum Unsorted. */
+        AlbumPage albumPage = home.
+                              clicarNoBotaoDeLogin().
+                              preencherLoginCom(user, password).
+                              clicarEmSignIn().
+                              clicarNoAlbumUnsorted().
+                              clicarNaPrimeiraFoto().
+                              clicarEmApagar().
+                              clicarEmDeletePhoto();
+        
+        assertTrue(albumPage.apagouFoto());                        
+    }
+    
+    /* CT08: Buscar */
+    @Test
+    @Ignore
+    public void CT08(){
+        AlbumsPage albumsPage = home.
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn().
+                                preencherCampoDeBuscaCom("doggo");
+        
+        assertTrue(albumsPage.achouResultado());
+        
+        albumsPage.preencherCampoDeBuscaCom("teste");
+        
+        assertTrue(albumsPage.naoAchouResultado());
+    }
+    
 }
