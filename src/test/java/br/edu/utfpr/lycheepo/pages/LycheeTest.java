@@ -89,7 +89,7 @@ public class LycheeTest {
  
     /* CT03: Adicionar foto a álbum via link */
     @Test
-    //@Ignore
+    @Ignore
     public void CT03(){
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
@@ -108,7 +108,7 @@ public class LycheeTest {
         
         albumPage.clicarEmDeletar().confirmarExclusao();
         
-        //Funciona fora da UTFPR. Precisa de configuração do proxy.
+        //Funciona fora da UTFPR. Precisa de configuração do proxy para funcionar.
     }
     
     /* CT04: Adicionar foto sem especificar álbum */
