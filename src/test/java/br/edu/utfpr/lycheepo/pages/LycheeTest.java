@@ -248,4 +248,28 @@ public class LycheeTest {
                                 confirmarExclusao();
     }
     
+    /* CT10: Mudar credenciais de login e senha */
+    @Test
+    @Ignore
+    public void CT10(){
+        AlbumsPage albumsPage = home.
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom(user, password).
+                                clicarEmSignIn().
+                                clicarEmSettings().
+                                clicarEmChangeLogin().
+                                preencherPasswordAntigoCom(password).
+                                preencherNovoLoginCom("caiothizio", "123mypw").
+                                confirmarNovoLogin().
+                                clicarEmSettings().
+                                clicarEmSignOut().
+                                clicarNoBotaoDeLogin().
+                                preencherLoginCom("caiothizio", "123mypw").
+                                clicarEmSignIn().   //caso não tenha falhado neste ponto, o caso de teste funciona
+                                clicarEmSettings().
+                                clicarEmChangeLogin().
+                                preencherPasswordAntigoCom("123mypw").
+                                preencherNovoLoginCom(user, password).
+                                confirmarNovoLogin();
+    }
 }

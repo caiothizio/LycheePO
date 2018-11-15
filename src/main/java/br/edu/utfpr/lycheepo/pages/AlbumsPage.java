@@ -47,6 +47,9 @@ public class AlbumsPage extends LycheeBasePage{
     @FindBy(xpath="/html/body/div[6]/div/table/tbody/tr[1]/td")
     WebElement uploadPhoto;
     
+    @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[1]/td")
+    WebElement changeLogin;
+    
     @FindBy(xpath = "/html/body/div[6]/div/table/tbody/tr[3]/td")
     WebElement importFromLink;
     
@@ -72,6 +75,9 @@ public class AlbumsPage extends LycheeBasePage{
     
     @FindBy(name = "search")
     WebElement inputSearch;
+    
+    @FindBy(name = "oldPassword")
+    WebElement inputOldPw;
     
     /* Divs */
     @FindBy(xpath = "/html/body/div[6]")
@@ -148,9 +154,30 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
+    public AlbumsPage clicarEmChangeLogin(){
+        waitForElementVisibility(3, changeLogin);
+        changeLogin.click();
+        
+        return this;
+    }
+    
     public AlbumsPage preencherNomeDoAlbumCom(String albumName){
         inputAlbumName.clear();
         inputAlbumName.sendKeys(albumName);
+        
+        return this;
+    }
+    
+    public AlbumsPage preencherPasswordAntigoCom(String oldPw){
+        inputOldPw.clear();
+        inputOldPw.sendKeys(oldPw);
+        
+        return this;
+    }
+    
+    public AlbumsPage preencherNovoLoginCom(String newUser, String newPw){
+        inputUsername.sendKeys(newUser);
+        inputPassword.sendKeys(newPw);
         
         return this;
     }
@@ -194,6 +221,13 @@ public class AlbumsPage extends LycheeBasePage{
         wait(1);
         
         return new AlbumPage(driver);
+    }
+    
+    public AlbumsPage confirmarNovoLogin(){
+        performAction();
+        wait(1);
+        
+        return this;
     }
     
     public AlbumPage clicarNoAlbumUnsorted(){
