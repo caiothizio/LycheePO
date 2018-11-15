@@ -188,6 +188,10 @@ public class LycheeTest {
                               preencherLoginCom(user, password).
                               clicarEmSignIn().
                               clicarNoAlbumUnsorted().
+                              clicarEmAdd().
+                              clicarEmImportFromLink().
+                              preencherLinkDaImagemCom("https://t1.ea.ltmcdn.com/pt/images/7/0/3/como_adestrar_um_shiba_inu_21307_600.jpg").
+                              clicarEmImport().
                               clicarNaPrimeiraFoto().
                               clicarEmApagar().
                               clicarEmDeletePhoto();
@@ -203,7 +207,13 @@ public class LycheeTest {
                                 clicarNoBotaoDeLogin().
                                 preencherLoginCom(user, password).
                                 clicarEmSignIn().
-                                preencherCampoDeBuscaCom("doggo");
+                                clicarNoAlbumUnsorted().
+                                clicarEmAdd().
+                                clicarEmImportFromLink().
+                                preencherLinkDaImagemCom("https://t1.ea.ltmcdn.com/pt/images/7/0/3/como_adestrar_um_shiba_inu_21307_600.jpg").
+                                clicarEmImport().
+                                clicarEmVoltar().
+                                preencherCampoDeBuscaCom("shiba");
         
         assertTrue(albumsPage.achouResultado());
         
