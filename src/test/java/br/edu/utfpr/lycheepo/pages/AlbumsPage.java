@@ -5,9 +5,9 @@
  */
 package br.edu.utfpr.lycheepo.pages;
 
-import br.edu.utfpr.lycheepo.basepage.LycheeBasePage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -91,6 +91,7 @@ public class AlbumsPage extends LycheeBasePage{
     /* Construtor */
     public AlbumsPage(WebDriver driver, boolean estaLogado) {
         super(driver);
+        driver.get("http://192.168.0.103/");
         logado = estaLogado;
     }
     
@@ -139,8 +140,7 @@ public class AlbumsPage extends LycheeBasePage{
     }
     
     public AlbumsPage clicarEmNewAlbum(){
-        waitForElementVisibility(3, newAlbum);
-        
+        wait(1);
         newAlbum.click();
         
         return this;
@@ -162,6 +162,7 @@ public class AlbumsPage extends LycheeBasePage{
     }
     
     public AlbumsPage preencherNomeDoAlbumCom(String albumName){
+        wait(1);
         inputAlbumName.clear();
         inputAlbumName.sendKeys(albumName);
         
@@ -182,14 +183,17 @@ public class AlbumsPage extends LycheeBasePage{
         return this;
     }
     
-    public AlbumsPage preencherCaminhoDeImagemCom(String path){
-        System.out.println(inputImg);
+    public AlbumPage preencherCaminhoDeImagemCom(String path){
+        JavascriptExecutor ex = (JavascriptExecutor) driver;
+        ex.executeScript("document.getElementById('upload').style.display = 'contents'");
+        wait(1);
         inputImg.clear();
         inputImg.sendKeys(path);
         
         wait(3);
+        ex.executeScript("document.getElementById('upload').style.display = 'none'");
         
-        return this;
+        return new AlbumPage(driver);
     }
     
     public AlbumsPage preencherCampoDeBuscaCom(String busca){

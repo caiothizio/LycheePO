@@ -5,7 +5,6 @@
  */
 package br.edu.utfpr.lycheepo.pages;
 
-import br.edu.utfpr.lycheepo.basepage.LycheeBasePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
@@ -13,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -27,7 +25,7 @@ public class LycheeTest {
     /* Consts */
     private final String user = "teste";
     private final String password = "utfpr";
-    
+  
     private final String testImg = System.getProperty("user.dir")+"\\img\\shiba.jpg";
     
     private WebDriver driver;
@@ -48,7 +46,6 @@ public class LycheeTest {
         driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.get("http://192.168.0.103/");
         home = new AlbumsPage(driver, LycheeBasePage.DESLOGADO);
     }
     
@@ -56,10 +53,10 @@ public class LycheeTest {
     public void tearDown() {
         driver.close();
     }
-    
+   
     /* CT01: Realizar Login */
     @Test 
-    @Ignore
+    
     public void CT01(){
         AlbumsPage albumsPage = home.
                                 clicarNoBotaoDeLogin().
@@ -71,7 +68,7 @@ public class LycheeTest {
     
     /* CT02: Criar álbum e depois excluí-lo */
     @Test(expected = org.openqa.selenium.NoSuchElementException.class)
-    @Ignore
+    
     public void CT02(){
         AlbumsPage albumsPage = home.
                                 clicarNoBotaoDeLogin().
@@ -89,7 +86,7 @@ public class LycheeTest {
  
     /* CT03: Adicionar foto a álbum via link */
     @Test
-    @Ignore
+    
     public void CT03(){
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
@@ -113,20 +110,21 @@ public class LycheeTest {
     
     /* CT04: Adicionar foto sem especificar álbum */
     @Test
-    @Ignore
+    
     public void CT04(){
-        AlbumsPage albumsPage = home.
+        PhotoPage photoPage = home.
                                 clicarNoBotaoDeLogin().
                                 preencherLoginCom(user, password).
                                 clicarEmSignIn().
-                                preencherCaminhoDeImagemCom(testImg);
+                                preencherCaminhoDeImagemCom(testImg).
+                                clicarNaPrimeiraFoto();
         
-        //Parado. Nao está funcionando a interação com o input do tipo file, pois este está hidden na página.                              
+        assertEquals("Lychee - shiba", photoPage.getCurrentTitle());
     }
     
     /* CT05: Estrelar foto */
     @Test
-    @Ignore
+    
     public void CT05(){
         /* Importante: para este caso de teste funcionar, é preciso ter ao menos uma imagem carregada no álbum "Unsorted" e esta não pode estar marcada com estrela. */
         AlbumPage albumPage = home.
@@ -152,11 +150,13 @@ public class LycheeTest {
                     clicarNaEstrela();
         
         assertTrue(photoPage.desfavoritou());
+        
+        photoPage.clicarEmApagar().clicarEmDeletePhoto();
     }
     
     /* CT06: Renomear Álbum */
     @Test
-    @Ignore
+    
     public void CT06(){
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
@@ -180,7 +180,7 @@ public class LycheeTest {
     
     /* CT07: Excluir Foto */
     @Test
-    @Ignore
+    
     public void CT07(){
         /* Importante: para este caso de teste funcionar, é necessário possuir uma foto no álbum Unsorted. */
         AlbumPage albumPage = home.
@@ -201,17 +201,13 @@ public class LycheeTest {
     
     /* CT08: Buscar */
     @Test
-    @Ignore
+    
     public void CT08(){
         AlbumsPage albumsPage = home.
                                 clicarNoBotaoDeLogin().
                                 preencherLoginCom(user, password).
                                 clicarEmSignIn().
-                                clicarNoAlbumUnsorted().
-                                clicarEmAdd().
-                                clicarEmImportFromLink().
-                                preencherLinkDaImagemCom("https://t1.ea.ltmcdn.com/pt/images/7/0/3/como_adestrar_um_shiba_inu_21307_600.jpg").
-                                clicarEmImport().
+                                preencherCaminhoDeImagemCom(testImg).
                                 clicarEmVoltar().
                                 preencherCampoDeBuscaCom("shiba");
         
@@ -224,7 +220,7 @@ public class LycheeTest {
     
     /* CT09: Tornar álbum público com senha */
     @Test
-    @Ignore
+    
     public void CT09(){
         AlbumPage albumPage = home.
                               clicarNoBotaoDeLogin().
@@ -260,7 +256,7 @@ public class LycheeTest {
     
     /* CT10: Mudar credenciais de login e senha */
     @Test
-    @Ignore
+    
     public void CT10(){
         AlbumsPage albumsPage = home.
                                 clicarNoBotaoDeLogin().
